@@ -16,6 +16,8 @@ app.get('/apps', (req, res) => {
         genre
     } = req.query;
 
+    console.log(genre);
+
     if (genre) {
         if (!['Action', 'Puzzle', 'Strategy', 'Casual', 'Arcade', 'Card'].includes(genre)) {
             return res
@@ -25,7 +27,7 @@ app.get('/apps', (req, res) => {
     }
 
     if (sort) {
-        if (!['rating', 'app'].includes(sort)) {
+        if (!['Rating', 'App'].includes(sort)) {
             return res
                 .status(400)
                 .send('sort must be one of title or rank')
@@ -41,12 +43,10 @@ app.get('/apps', (req, res) => {
 
     if (sort) {
         results
-            .sort((a, b) => {
-                return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
-            });
+            .sort((a, b) => b[sort] - a[sort]);
     }
 
-    console.log(results);
+    // console.log(results);
 
     res.json(results);
 })
